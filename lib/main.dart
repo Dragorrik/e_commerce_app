@@ -7,8 +7,9 @@ import 'app/routes/app_pages.dart';
 void main() {
   runApp(
     GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: "E-commerce App",
-      initialRoute: AppPages.INITIAL,
+      initialRoute: Routes.PRODUCT_LIST,
       getPages: AppPages.routes,
     ),
   );
