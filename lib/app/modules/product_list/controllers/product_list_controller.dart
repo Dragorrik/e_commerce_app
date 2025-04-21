@@ -47,7 +47,7 @@ class ProductListController extends GetxController {
     try {
       var result = await repository.getCategories();
       print("CATEGORIES: $result");
-      categories.assignAll(result);
+      categories.value = ['All', ...result];
     } catch (e) {
       print("Error loading categories: $e");
     }
@@ -57,8 +57,14 @@ class ProductListController extends GetxController {
     try {
       isLoading(true);
       selectedCategory.value = category;
-      var filtered = await repository.getProductsByCategory(category);
-      productList.assignAll(filtered);
+
+      if (category == 'All') {
+        var allProducts = await repository.getAllProducts();
+        productList.assignAll(allProducts);
+      } else {
+        var filtered = await repository.getProductsByCategory(category);
+        productList.assignAll(filtered);
+      }
     } finally {
       isLoading(false);
     }

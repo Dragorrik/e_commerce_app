@@ -40,6 +40,7 @@ class ProductListView extends GetView<ProductListController> {
                         return ChoiceChip(
                           label: Text(cat),
                           selected: isSelected,
+                          showCheckmark: false,
                           onSelected: (_) => controller.filterByCategory(cat),
                           selectedColor: Colors.blueAccent,
                         );
