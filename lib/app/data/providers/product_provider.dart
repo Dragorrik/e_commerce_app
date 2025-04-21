@@ -27,4 +27,29 @@ class ProductProvider {
       throw Exception('Failed to search products');
     }
   }
+
+  Future<List<String>> fetchCategories() async {
+    final response =
+        await http.get(Uri.parse('https://dummyjson.com/products/categories'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      // 🔥 extract just the slug from each category map
+      return data.map<String>((cat) => cat['name'] as String).toList();
+    } else {
+      throw Exception('Failed to fetch categories');
+    }
+  }
+
+  Future<List<Product>> fetchProductsByCategory(String category) async {
+    final response = await http
+        .get(Uri.parse('https://dummyjson.com/products/category/$category'));
+
+    if (response.statusCode == 200) {
+      final List productsJson = json.decode(response.body)['products'];
+      return productsJson.map((json) => Product.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to fetch category products');
+    }
+  }
 }

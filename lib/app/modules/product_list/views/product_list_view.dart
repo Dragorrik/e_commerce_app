@@ -12,14 +12,42 @@ class ProductListView extends GetView<ProductListController> {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Search products by product name...',
-                prefixIcon: Icon(Icons.search),
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-              ),
-              onChanged: controller.search,
+            child: Column(
+              children: [
+                TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Search products by product name...',
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                  ),
+                  onChanged: controller.search,
+                ),
+                const SizedBox(height: 16),
+                Obx(() {
+                  return SizedBox(
+                    height: 45,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      itemCount: controller.categories.length,
+                      separatorBuilder: (_, __) => const SizedBox(width: 8),
+                      itemBuilder: (context, index) {
+                        final cat = controller.categories[index];
+                        final isSelected =
+                            controller.selectedCategory.value == cat;
+
+                        return ChoiceChip(
+                          label: Text(cat),
+                          selected: isSelected,
+                          onSelected: (_) => controller.filterByCategory(cat),
+                          selectedColor: Colors.blueAccent,
+                        );
+                      },
+                    ),
+                  );
+                }),
+              ],
             ),
           ),
           Expanded(

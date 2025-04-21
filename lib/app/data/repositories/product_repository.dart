@@ -13,4 +13,12 @@ class ProductRepository {
   Future<List<Product>> searchProducts(String query) {
     return _provider.searchProducts(query);
   }
+
+  Future<List<String>> getCategories() {
+    return _provider.fetchCategories();
+  }
+
+  Future<List<Product>> getProductsByCategory(String category) {
+    return _provider.fetchProductsByCategory(category);
+  }
 }
