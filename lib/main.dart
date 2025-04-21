@@ -11,6 +11,7 @@ void main() {
       title: "E-commerce App",
       initialRoute: Routes.PRODUCT_LIST,
       getPages: AppPages.routes,
+      defaultTransition: Transition.cupertino,
     ),
   );
 }

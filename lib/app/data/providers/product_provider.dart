@@ -34,7 +34,6 @@ class ProductProvider {
 
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
-      // 🔥 extract just the slug from each category map
       return data.map<String>((cat) => cat['name'] as String).toList();
     } else {
       throw Exception('Failed to fetch categories');
