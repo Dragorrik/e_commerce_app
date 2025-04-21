@@ -24,4 +24,19 @@ class ProductListController extends GetxController {
       isLoading(false);
     }
   }
+
+  void search(String query) async {
+    if (query.isEmpty) {
+      fetchProducts();
+      return;
+    }
+
+    try {
+      isLoading(true);
+      var results = await repository.searchProducts(query);
+      productList.assignAll(results);
+    } finally {
+      isLoading(false);
+    }
+  }
 }

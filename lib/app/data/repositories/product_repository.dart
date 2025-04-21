@@ -9,4 +9,8 @@ class ProductRepository {
   Future<List<Product>> getAllProducts() {
     return _provider.fetchProducts();
   }
+
+  Future<List<Product>> searchProducts(String query) {
+    return _provider.searchProducts(query);
+  }
 }
