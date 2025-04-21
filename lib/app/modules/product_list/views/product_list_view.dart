@@ -61,12 +61,18 @@ class ProductListView extends GetView<ProductListController> {
                 itemCount: controller.productList.length,
                 itemBuilder: (context, index) {
                   final product = controller.productList[index];
-                  return Card(
-                    margin: const EdgeInsets.all(8),
-                    child: ListTile(
-                      leading: Image.network(product.thumbnail, width: 60),
-                      title: Text(product.title),
-                      subtitle: Text('\$${product.price} | ${product.rating}⭐'),
+                  return InkWell(
+                    onTap: () {
+                      Get.toNamed('/product-details', arguments: product);
+                    },
+                    child: Card(
+                      margin: const EdgeInsets.all(8),
+                      child: ListTile(
+                        leading: Image.network(product.thumbnail, width: 60),
+                        title: Text(product.title),
+                        subtitle:
+                            Text('\$${product.price} | ${product.rating}⭐'),
+                      ),
                     ),
                   );
                 },
