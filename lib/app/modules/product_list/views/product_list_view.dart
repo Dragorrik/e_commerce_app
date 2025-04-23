@@ -100,6 +100,7 @@ class ProductListView extends GetView<ProductListController> {
                             'Price: High to Low',
                             'Rating: Low to High',
                             'Rating: High to Low',
+                            'Favorites Only',
                           ].map((label) {
                             return DropdownMenuItem<String>(
                               value: label,

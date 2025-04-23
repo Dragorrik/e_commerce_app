@@ -10,6 +10,7 @@ class ProductListController extends GetxController {
   var selectedCategory = ''.obs;
   var selectedSort = 'Price: Low to High'.obs;
   final RxSet<int> favoriteIds = <int>{}.obs;
+  RxList<Product> allProducts = <Product>[].obs;
 
   final ProductRepository repository = ProductRepository(ProductProvider());
 
@@ -24,7 +25,11 @@ class ProductListController extends GetxController {
     try {
       isLoading(true);
       var products = await repository.getAllProducts();
+      allProducts.assignAll(products);
       productList.assignAll(products);
+    } catch (e) {
+      print("Error loading products: $e");
+      // Handle error, maybe show a message to the user
     } finally {
       isLoading(false);
     }
@@ -75,7 +80,9 @@ class ProductListController extends GetxController {
   void sortProducts(String sortOption) {
     selectedSort.value = sortOption;
 
-    List<Product> sorted = List.from(productList);
+    List<Product> sorted = [
+      ...allProducts
+    ]; // Keep a full list cached in allProducts
 
     switch (sortOption) {
       case 'Price: Low to High':
@@ -89,6 +96,11 @@ class ProductListController extends GetxController {
         break;
       case 'Rating: High to Low':
         sorted.sort((a, b) => b.rating.compareTo(a.rating));
+        break;
+      case 'Favorites Only':
+        sorted = sorted
+            .where((product) => favoriteIds.contains(product.id))
+            .toList();
         break;
     }
 
