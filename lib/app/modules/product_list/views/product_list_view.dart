@@ -67,6 +67,7 @@ class ProductListView extends GetView<ProductListController> {
                 }),
 
                 SizedBox(height: 16),
+
                 // Sorting Dropdown
                 Obx(() {
                   return Align(
@@ -91,8 +92,8 @@ class ProductListView extends GetView<ProductListController> {
                           value: controller.selectedSort.value,
                           icon:
                               const Icon(Icons.sort, color: Colors.blueAccent),
-                          dropdownColor: Colors.white,
-                          style: const TextStyle(
+                          dropdownColor: Color(0XFFFEF7FF),
+                          style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w500, color: Colors.black),
                           items: [
                             'Price: Low to High',
@@ -140,89 +141,96 @@ class ProductListView extends GetView<ProductListController> {
                 return const Center(child: CircularProgressIndicator());
               }
 
-              return ListView.builder(
-                itemCount: controller.productList.length,
-                itemBuilder: (context, index) {
-                  final product = controller.productList[index];
-                  return AnimatedContainer(
-                    duration: Duration(milliseconds: 300),
-                    curve: Curves.easeIn,
-                    child: GestureDetector(
-                      onTap: () {
-                        Get.toNamed('/product-details', arguments: product);
-                      },
-                      child: Card(
-                        elevation: 3,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 8),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Hero(
-                                tag: product.id,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: Image.network(
-                                    product.thumbnail,
-                                    width: 90,
-                                    height: 90,
-                                    fit: BoxFit.cover,
+              return RefreshIndicator(
+                onRefresh: () async {
+                  return controller.fetchProducts();
+                },
+                child: ListView.builder(
+                  itemCount: controller.productList.length,
+                  itemBuilder: (context, index) {
+                    final product = controller.productList[index];
+                    return AnimatedContainer(
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.easeIn,
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.toNamed('/product-details', arguments: product);
+                        },
+                        child: Card(
+                          elevation: 3,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 8),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Hero(
+                                  tag: product.id,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Image.network(
+                                      product.thumbnail,
+                                      width: 90,
+                                      height: 90,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(product.title,
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                        )),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      product.description,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontSize: 13,
-                                          color: Colors.grey.shade700),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text('\$${product.price}',
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                            )),
-                                        Row(
-                                          children: [
-                                            const Icon(Icons.star,
-                                                color: Colors.amber, size: 16),
-                                            Text('${product.rating}'),
-                                          ],
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(product.title,
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                          )),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        product.description,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.grey.shade700),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text('\$${product.price}',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                              )),
+                                          Row(
+                                            children: [
+                                              const Icon(Icons.star,
+                                                  color: Colors.amber,
+                                                  size: 16),
+                                              Text('${product.rating}'),
+                                            ],
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               );
             }),
           ),
