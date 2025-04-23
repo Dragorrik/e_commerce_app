@@ -9,6 +9,7 @@ class ProductListController extends GetxController {
   var categories = <String>[].obs;
   var selectedCategory = ''.obs;
   var selectedSort = 'Price: Low to High'.obs;
+  final RxSet<int> favoriteIds = <int>{}.obs;
 
   final ProductRepository repository = ProductRepository(ProductProvider());
 
@@ -93,4 +94,14 @@ class ProductListController extends GetxController {
 
     productList.assignAll(sorted);
   }
+
+  void toggleFavorite(int productId) {
+    if (favoriteIds.contains(productId)) {
+      favoriteIds.remove(productId);
+    } else {
+      favoriteIds.add(productId);
+    }
+  }
+
+  bool isFavorite(int productId) => favoriteIds.contains(productId);
 }

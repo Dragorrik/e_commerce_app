@@ -215,7 +215,29 @@ class ProductListView extends GetView<ProductListController> {
                                               const Icon(Icons.star,
                                                   color: Colors.amber,
                                                   size: 16),
+                                              const SizedBox(width: 4),
                                               Text('${product.rating}'),
+                                              const SizedBox(width: 8),
+                                              Obx(() {
+                                                final isFav = controller
+                                                    .isFavorite(product.id);
+                                                return IconButton(
+                                                  icon: Icon(
+                                                    isFav
+                                                        ? Icons.favorite
+                                                        : Icons.favorite_border,
+                                                    color: isFav
+                                                        ? Colors.red
+                                                        : Colors.grey,
+                                                    size: 20,
+                                                  ),
+                                                  onPressed: () =>
+                                                      controller.toggleFavorite(
+                                                          product.id),
+                                                  padding: EdgeInsets.zero,
+                                                  constraints: BoxConstraints(),
+                                                );
+                                              }),
                                             ],
                                           )
                                         ],
