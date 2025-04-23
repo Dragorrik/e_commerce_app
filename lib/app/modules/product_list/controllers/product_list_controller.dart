@@ -8,6 +8,7 @@ class ProductListController extends GetxController {
   var productList = <Product>[].obs;
   var categories = <String>[].obs;
   var selectedCategory = ''.obs;
+  var selectedSort = 'Price: Low to High'.obs;
 
   final ProductRepository repository = ProductRepository(ProductProvider());
 
@@ -68,5 +69,28 @@ class ProductListController extends GetxController {
     } finally {
       isLoading(false);
     }
+  }
+
+  void sortProducts(String sortOption) {
+    selectedSort.value = sortOption;
+
+    List<Product> sorted = List.from(productList);
+
+    switch (sortOption) {
+      case 'Price: Low to High':
+        sorted.sort((a, b) => a.price.compareTo(b.price));
+        break;
+      case 'Price: High to Low':
+        sorted.sort((a, b) => b.price.compareTo(a.price));
+        break;
+      case 'Rating: Low to High':
+        sorted.sort((a, b) => a.rating.compareTo(b.rating));
+        break;
+      case 'Rating: High to Low':
+        sorted.sort((a, b) => b.rating.compareTo(a.rating));
+        break;
+    }
+
+    productList.assignAll(sorted);
   }
 }

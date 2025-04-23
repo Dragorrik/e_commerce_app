@@ -65,6 +65,70 @@ class ProductListView extends GetView<ProductListController> {
                     ),
                   );
                 }),
+
+                SizedBox(height: 16),
+                // Sorting Dropdown
+                Obx(() {
+                  return Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: Color(0XFFFEF7FF),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Colors.grey.shade300),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 6,
+                            offset: const Offset(0, 3),
+                          )
+                        ],
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: controller.selectedSort.value,
+                          icon:
+                              const Icon(Icons.sort, color: Colors.blueAccent),
+                          dropdownColor: Colors.white,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w500, color: Colors.black),
+                          items: [
+                            'Price: Low to High',
+                            'Price: High to Low',
+                            'Rating: Low to High',
+                            'Rating: High to Low',
+                          ].map((label) {
+                            return DropdownMenuItem<String>(
+                              value: label,
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    label.contains('Price')
+                                        ? Icons.attach_money
+                                        : Icons.star_rate,
+                                    color: label.contains('Price')
+                                        ? Colors.lightGreen
+                                        : Colors.orangeAccent,
+                                    size: 20,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(label),
+                                ],
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            if (value != null) {
+                              controller.sortProducts(value);
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                  );
+                }),
               ],
             ),
           ),
