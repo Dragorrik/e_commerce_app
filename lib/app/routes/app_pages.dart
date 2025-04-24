@@ -1,3 +1,5 @@
+import 'package:e_commerce_app/app/modules/forgotPassword/bindings/forgot_password_binding.dart';
+import 'package:e_commerce_app/app/modules/forgotPassword/views/forgot_password_view.dart';
 import 'package:get/get.dart';
 
 import '../modules/home/bindings/home_binding.dart';
@@ -43,6 +45,11 @@ class AppPages {
       name: _Paths.REGISTER,
       page: () => RegisterView(),
       binding: RegisterBinding(),
+    ),
+    GetPage(
+      name: _Paths.FORGOT_PASSWORD,
+      page: () => ForgotPasswordView(),
+      binding: ForgotPasswordBinding(),
     ),
   ];
 }

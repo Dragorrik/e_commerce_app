@@ -79,8 +79,7 @@ class LoginView extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: TextButton(
                 onPressed: () {
-                  Get.snackbar("Coming Soon",
-                      "Forgot password feature is not implemented yet.");
+                  Get.toNamed('/forgot-password');
                 },
                 child: const Text("Forgot Password?"),
               ),

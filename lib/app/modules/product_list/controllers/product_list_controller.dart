@@ -12,7 +12,7 @@ class ProductListController extends GetxController {
   var selectedSort = 'Price: Low to High'.obs;
   final RxSet<int> favoriteIds = <int>{}.obs;
   RxList<Product> allProducts = <Product>[].obs;
-  LoginController loginController = Get.find<LoginController>();
+  LoginController loginController = Get.put(LoginController());
 
   final ProductRepository repository = ProductRepository(ProductProvider());
 

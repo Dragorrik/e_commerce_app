@@ -12,8 +12,19 @@ class RegisterController extends GetxController {
         email: email,
         password: password,
       );
+
       if (userCredential.user != null) {
-        Get.offAllNamed('/product-list');
+        // Send verification email
+        await userCredential.user!.sendEmailVerification();
+
+        Get.snackbar(
+          'Verification Email Sent',
+          'Please check your inbox and verify your email before logging in.',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+
+        // Optionally redirect to login
+        Get.offAllNamed('/login');
       } else {
         Get.snackbar('Error', 'Registration failed');
       }
