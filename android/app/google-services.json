@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "28247345869",
+    "project_id": "e-commerceapp-7a367",
+    "storage_bucket": "e-commerceapp-7a367.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:28247345869:android:b86a1ee3512c9ed0c6f784",
+        "android_client_info": {
+          "package_name": "com.dragorrik.e_commerce_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3sgQzj4C_e4OI8gOSVjFf_ouwEOaudHY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
