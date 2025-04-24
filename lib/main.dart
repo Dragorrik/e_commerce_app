@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'app/routes/app_pages.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -14,7 +15,7 @@ void main() async {
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: "E-commerce App",
-      initialRoute: Routes.PRODUCT_LIST,
+      initialRoute: Routes.LOGIN,
       getPages: AppPages.routes,
       defaultTransition: Transition.cupertino,
     ),
