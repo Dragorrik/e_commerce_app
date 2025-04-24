@@ -3,15 +3,6 @@ import 'package:get/get.dart';
 
 class LoginController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   Future<void> login(String email, String password) async {
     final UserCredential userCredential =
