@@ -134,8 +134,7 @@ class LoginView extends StatelessWidget {
                 const Text("Don't have an account?"),
                 TextButton(
                   onPressed: () {
-                    Get.snackbar("Coming Soon",
-                        "Registration screen is not implemented yet.");
+                    Get.offNamed('/register');
                   },
                   child: const Text("Sign Up"),
                 ),

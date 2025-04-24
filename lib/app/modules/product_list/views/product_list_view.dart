@@ -17,11 +17,23 @@ class ProductListView extends GetView<ProductListController> {
             child: Column(
               children: [
                 SizedBox(height: 40),
-                Text('Products',
-                    style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 22,
-                    )),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(),
+                    Text('Products',
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 22,
+                        )),
+                    IconButton(
+                      onPressed: () {
+                        controller.logout();
+                      },
+                      icon: Icon(Icons.logout, color: Colors.red),
+                    )
+                  ],
+                ),
                 SizedBox(height: 20),
                 Material(
                   elevation: 2,

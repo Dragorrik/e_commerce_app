@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/app/modules/login/controllers/login_controller.dart';
 import 'package:get/get.dart';
 import '../../../data/models/product_model.dart';
 import '../../../data/repositories/product_repository.dart';
@@ -11,6 +12,7 @@ class ProductListController extends GetxController {
   var selectedSort = 'Price: Low to High'.obs;
   final RxSet<int> favoriteIds = <int>{}.obs;
   RxList<Product> allProducts = <Product>[].obs;
+  LoginController loginController = Get.find<LoginController>();
 
   final ProductRepository repository = ProductRepository(ProductProvider());
 
@@ -116,4 +118,8 @@ class ProductListController extends GetxController {
   }
 
   bool isFavorite(int productId) => favoriteIds.contains(productId);
+
+  void logout() {
+    loginController.logout();
+  }
 }
