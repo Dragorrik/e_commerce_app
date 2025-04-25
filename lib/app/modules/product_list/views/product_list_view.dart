@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/app/modules/my_orders/my_orders_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -81,68 +82,113 @@ class ProductListView extends GetView<ProductListController> {
                 SizedBox(height: 16),
 
                 // Sorting Dropdown
-                Obx(() {
-                  return Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: Color(0XFFFEF7FF),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.grey.shade300),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 6,
-                            offset: const Offset(0, 3),
-                          )
-                        ],
-                      ),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          value: controller.selectedSort.value,
-                          icon:
-                              const Icon(Icons.sort, color: Colors.blueAccent),
-                          dropdownColor: Color(0XFFFEF7FF),
-                          style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w500, color: Colors.black),
-                          items: [
-                            'Price: Low to High',
-                            'Price: High to Low',
-                            'Rating: Low to High',
-                            'Rating: High to Low',
-                            'Favorites Only',
-                          ].map((label) {
-                            return DropdownMenuItem<String>(
-                              value: label,
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    label.contains('Price')
-                                        ? Icons.attach_money
-                                        : Icons.star_rate,
-                                    color: label.contains('Price')
-                                        ? Colors.lightGreen
-                                        : Colors.orangeAccent,
-                                    size: 20,
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Text(label),
-                                ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Get.to(
+                          () => MyOrdersPage(),
+                          transition: Transition.rightToLeft,
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 12),
+                        decoration: BoxDecoration(
+                          color: Color(0XFFFEF7FF),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.grey.shade300),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 6,
+                              offset: const Offset(0, 3),
+                            )
+                          ],
+                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              'My Orders',
+                              style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black,
+                                fontSize: 14,
                               ),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            if (value != null) {
-                              controller.sortProducts(value);
-                            }
-                          },
+                            ),
+                            SizedBox(width: 8),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: Colors.blueAccent,
+                              size: 16,
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                  );
-                }),
+                    Obx(() {
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: Color(0XFFFEF7FF),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.grey.shade300),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 6,
+                              offset: const Offset(0, 3),
+                            )
+                          ],
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            value: controller.selectedSort.value,
+                            icon: const Icon(Icons.sort,
+                                color: Colors.blueAccent),
+                            dropdownColor: Color(0XFFFEF7FF),
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black),
+                            items: [
+                              'Price: Low to High',
+                              'Price: High to Low',
+                              'Rating: Low to High',
+                              'Rating: High to Low',
+                              'Favorites Only',
+                            ].map((label) {
+                              return DropdownMenuItem<String>(
+                                value: label,
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      label.contains('Price')
+                                          ? Icons.attach_money
+                                          : Icons.star_rate,
+                                      color: label.contains('Price')
+                                          ? Colors.lightGreen
+                                          : Colors.orangeAccent,
+                                      size: 20,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Text(label),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              if (value != null) {
+                                controller.sortProducts(value);
+                              }
+                            },
+                          ),
+                        ),
+                      );
+                    }),
+                  ],
+                ),
               ],
             ),
           ),
