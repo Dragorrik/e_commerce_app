@@ -4,9 +4,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginView extends GetView<LoginController> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +47,7 @@ class LoginView extends GetView<LoginController> {
                           )),
                       const SizedBox(height: 16),
                       TextField(
-                        controller: emailController,
+                        controller: controller.emailController,
                         decoration: const InputDecoration(
                           labelText: 'Email',
                           prefixIcon: Icon(Icons.email),
@@ -59,7 +56,7 @@ class LoginView extends GetView<LoginController> {
                       ),
                       const SizedBox(height: 16),
                       TextField(
-                        controller: passwordController,
+                        controller: controller.passwordController,
                         obscureText: true,
                         decoration: const InputDecoration(
                           labelText: 'Password',
@@ -70,10 +67,7 @@ class LoginView extends GetView<LoginController> {
                       const SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: () {
-                          controller.login(
-                            emailController.text.trim(),
-                            passwordController.text.trim(),
-                          );
+                          controller.login();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blueAccent,

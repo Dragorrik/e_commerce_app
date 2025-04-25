@@ -92,6 +92,60 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
               ],
             ),
             const SizedBox(height: 12),
+            const SizedBox(height: 16),
+
+// Quantity Selector
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Quantity:',
+                  style: GoogleFonts.poppins(fontSize: 16),
+                ),
+                Obx(() => Row(
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.remove_circle_outline),
+                          onPressed: controller.decrementQuantity,
+                        ),
+                        Text(
+                          '${controller.quantity.value}',
+                          style: GoogleFonts.poppins(fontSize: 16),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.add_circle_outline),
+                          onPressed: controller.incrementQuantity,
+                        ),
+                      ],
+                    )),
+              ],
+            ),
+
+            const SizedBox(height: 35),
+
+// Buy Button
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: controller.buyNow,
+                icon: Icon(
+                  Icons.shopping_cart_checkout,
+                  color: Colors.white,
+                ),
+                label: Text(
+                  'Buy Now',
+                  style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w600, color: Colors.white),
+                ),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  backgroundColor: Colors.blueAccent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

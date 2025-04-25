@@ -4,9 +4,18 @@ import 'package:get/get.dart';
 
 class LoginController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
-  Future<void> login(String email, String password) async {
-    if (email.isEmpty || password.isEmpty) {
+  @override
+  void onInit() {
+    super.onInit();
+    emailController.text = "aarikanan@gmail.com";
+    passwordController.text = "123456";
+  }
+
+  Future<void> login() async {
+    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
       Get.snackbar('Error', 'Email and password cannot be empty',
           backgroundColor: Colors.red, colorText: Colors.white);
       return;
@@ -15,8 +24,8 @@ class LoginController extends GetxController {
     try {
       final UserCredential userCredential =
           await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
       );
 
       if (userCredential.user != null) {
