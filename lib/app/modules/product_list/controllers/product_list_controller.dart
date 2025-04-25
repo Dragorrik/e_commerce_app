@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_app/app/modules/login/controllers/login_controller.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import '../../../data/models/product_model.dart';
 import '../../../data/repositories/product_repository.dart';
@@ -13,6 +15,8 @@ class ProductListController extends GetxController {
   final RxSet<int> favoriteIds = <int>{}.obs;
   RxList<Product> allProducts = <Product>[].obs;
   LoginController loginController = Get.put(LoginController());
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   final ProductRepository repository = ProductRepository(ProductProvider());
 
@@ -20,6 +24,7 @@ class ProductListController extends GetxController {
   void onInit() {
     fetchProducts();
     fetchCategories();
+    loadFavorites();
     super.onInit();
   }
 
@@ -31,7 +36,6 @@ class ProductListController extends GetxController {
       productList.assignAll(products);
     } catch (e) {
       print("Error loading products: $e");
-      // Handle error, maybe show a message to the user
     } finally {
       isLoading(false);
     }
@@ -82,9 +86,7 @@ class ProductListController extends GetxController {
   void sortProducts(String sortOption) {
     selectedSort.value = sortOption;
 
-    List<Product> sorted = [
-      ...allProducts
-    ]; // Keep a full list cached in allProducts
+    List<Product> sorted = [...allProducts];
 
     switch (sortOption) {
       case 'Price: Low to High':
@@ -101,7 +103,7 @@ class ProductListController extends GetxController {
         break;
       case 'Favorites Only':
         sorted = sorted
-            .where((product) => favoriteIds.contains(product.id))
+            .where((product) => isFavorite(product.id)) // Firestore check
             .toList();
         break;
     }
@@ -109,10 +111,45 @@ class ProductListController extends GetxController {
     productList.assignAll(sorted);
   }
 
-  void toggleFavorite(int productId) {
+  // void toggleFavorite(int productId) {
+  //   if (favoriteIds.contains(productId)) {
+  //     favoriteIds.remove(productId);
+  //   } else {
+  //     favoriteIds.add(productId);
+  //   }
+  // }
+
+  // bool isFavorite(int productId) => favoriteIds.contains(productId);
+
+  Future<void> loadFavorites() async {
+    final user = _auth.currentUser;
+    if (user == null) return;
+
+    final snapshot = await _firestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('favorites')
+        .get();
+
+    favoriteIds
+        .assignAll(snapshot.docs.map((doc) => int.parse(doc.id)).toSet());
+  }
+
+  Future<void> toggleFavorite(int productId) async {
+    final user = _auth.currentUser;
+    if (user == null) return;
+
+    final favRef = _firestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('favorites')
+        .doc(productId.toString());
+
     if (favoriteIds.contains(productId)) {
+      await favRef.delete();
       favoriteIds.remove(productId);
     } else {
+      await favRef.set({'createdAt': Timestamp.now()});
       favoriteIds.add(productId);
     }
   }
